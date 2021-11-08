@@ -1,5 +1,7 @@
 # FORM-BASED AUTHENTICATION USING SPRING SECURITY
    
+*In form-based authentication, user needs to sign in after submitting his/her username and password as part of a form.*
+
 1. Go to [spring initializr](https://start.spring.io/).
 2. Select **Project** (Here we will choose `Maven`).
 3. Select **Language** (Here we will choose `Java`).
