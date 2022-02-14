@@ -7,29 +7,16 @@ class Todo extends Equatable {
   Todo({
     String? id,
     required this.title,
+    String? description,
     this.completed = false,
-  })  : assert(
-          id == null || id.isNotEmpty,
-          'id cannot be null & should be empty',
-        ),
-        id = id ?? const Uuid().v4();
+  })  : id = id ?? const Uuid().v4(),
+        description = description ?? "";
 
   final String? id;
   final String title;
+  final String? description;
   final bool completed;
 
-  Todo copyWith({
-    String? id,
-    String? title,
-    bool? completed,
-  }) {
-    return Todo(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      completed: completed ?? this.completed,
-    );
-  }
-
   @override
-  List<Object?> get props => [id, title, completed];
+  List<Object?> get props => [id, title, description, completed];
 }
