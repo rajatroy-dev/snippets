@@ -12,6 +12,14 @@ class EditTodoBloc extends Bloc<EditTodoEvent, EditTodoState> {
   EditTodoBloc(this.todoRepository) : super(EditTodoInitial()) {
     on<EditTodoEvent>((event, emit) {
       emit(EditTodoLoading());
+      if (event is EditTodoSubmitted) {
+        try {
+          todoRepository.update(event.todo);
+          emit(EditTodoSuccess(event.todo));
+        } catch (e) {
+          emit(EditTodoFailure(e.toString()));
+        }
+      }
     });
   }
 }
