@@ -6,4 +6,7 @@ class TodoRepository {
 
   Future<String?> insert(Todo todo) => _dao.insert(todo);
   Future<String?> update(Todo todo) => _dao.update(todo);
+  Future<void> pushTodoToEditScreen(Todo todo) =>
+      _dao.pushTodoToEditScreen(todo);
+  Future<Todo> popTodoForEditScreen() => _dao.popTodoForEditScreen();
 }
