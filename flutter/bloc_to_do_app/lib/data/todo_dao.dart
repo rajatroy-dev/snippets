@@ -26,6 +26,16 @@ class TodoDao {
     return id;
   }
 
+  Future<Todo> find(String id) async {
+    Todo todo = todos.singleWhere((element) => element.id == id);
+
+    return todo;
+  }
+
+  Future<List<Todo>> findAll() async {
+    return todos;
+  }
+
   Future<void> pushTodoToEditScreen(Todo todo) async {
     tempTodo = todo;
   }
