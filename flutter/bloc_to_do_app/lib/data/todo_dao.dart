@@ -1,7 +1,11 @@
 import '../model/todo.dart';
 
 class TodoDao {
-  var todos = <Todo>[];
+  var todos = <Todo>[
+    Todo(title: '1', description: '1', completed: false),
+    Todo(title: '2', description: '2', completed: false),
+    Todo(title: '3', description: '3', completed: false),
+  ];
   Todo? tempTodo;
 
   Future<String> insert(Todo todo) async {

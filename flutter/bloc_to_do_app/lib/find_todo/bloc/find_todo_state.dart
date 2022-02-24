@@ -11,7 +11,14 @@ class FindTodoInitial extends FindTodoState {}
 
 class FindTodoLoading extends FindTodoState {}
 
-class FindTodosSuccess extends FindTodoState {}
+class FindTodosSuccess extends FindTodoState {
+  final List<Todo> todos;
+
+  const FindTodosSuccess(this.todos);
+
+  @override
+  List<Object> get props => [todos];
+}
 
 class FindTodoSuccess extends FindTodoState {
   final String id;
