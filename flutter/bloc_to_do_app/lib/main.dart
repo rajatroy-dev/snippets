@@ -1,5 +1,5 @@
-import 'package:bloc_to_do_app/find_todo/bloc/find_todo_bloc.dart';
-import 'package:bloc_to_do_app/find_todo/ui/show_all_todos.dart';
+import 'package:bloc_to_do_app/find_all_todos/cubit/find_all_todos_cubit.dart';
+import 'package:bloc_to_do_app/find_all_todos/ui/show_all_todos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -46,8 +46,10 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: BlocProvider(
-        create: (context) => FindTodoBloc(),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => FindAllTodosCubit()),
+        ],
         child: const ShowAllTodos(),
       ),
       floatingActionButton: FloatingActionButton(

@@ -1,4 +1,5 @@
-import 'package:bloc_to_do_app/find_todo/bloc/find_todo_bloc.dart';
+import 'package:bloc_to_do_app/find_all_todos/cubit/find_all_todos_cubit.dart';
+import 'package:bloc_to_do_app/find_all_todos/ui/todo_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,31 +11,29 @@ class ShowAllTodos extends StatefulWidget {
 }
 
 class _ShowAllTodosState extends State<ShowAllTodos> {
-  final findTodoBloc = FindTodoBloc();
+  final cubit = FindAllTodosCubit();
 
   @override
   void initState() {
-    final provider = BlocProvider.of<FindTodoBloc>(context);
-    provider.add(FindAllTodos());
+    BlocProvider.of<FindAllTodosCubit>(context).getAllTodos();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-      bloc: findTodoBloc,
-      builder: (BuildContext context, FindTodoState state) {
-        if (state is FindTodoInitial) {
+    return BlocBuilder<FindAllTodosCubit, FindAllTodosState>(
+      builder: (BuildContext context, FindAllTodosState state) {
+        if (state is FindAllTodosInitial) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is FindTodoLoading) {
+        } else if (state is FindAllTodosLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is FindTodosSuccess) {
-          return Text(state.props.length as String);
-        } else if (state is FindTodoFailure) {
+        } else if (state is FindAllTodosSuccess) {
+          return TodoList(todos: state.todos);
+        } else if (state is FindAllTodosFailure) {
           return Center(
             child: Text(state.message),
           );
@@ -49,7 +48,7 @@ class _ShowAllTodosState extends State<ShowAllTodos> {
 
   @override
   void dispose() {
-    findTodoBloc.close();
+    cubit.close();
     super.dispose();
   }
 }

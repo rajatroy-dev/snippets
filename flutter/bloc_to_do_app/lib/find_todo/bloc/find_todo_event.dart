@@ -4,15 +4,13 @@ abstract class FindTodoEvent extends Equatable {
   const FindTodoEvent();
 
   @override
-  List<Object> get props => [props];
+  List<Object> get props => [];
 }
 
-class FindAllTodos extends FindTodoEvent {}
-
-class FindOneTodo extends FindTodoEvent {
+class FindTodo extends FindTodoEvent {
   final String id;
 
-  const FindOneTodo(this.id);
+  const FindTodo(this.id);
 
   @override
   List<Object> get props => [id];
