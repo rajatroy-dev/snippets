@@ -11,14 +11,7 @@ class EditTodoInitial extends EditTodoState {}
 
 class EditTodoLoading extends EditTodoState {}
 
-class EditTodoSuccess extends EditTodoState {
-  final Todo todo;
-
-  const EditTodoSuccess(this.todo);
-
-  @override
-  List<Object> get props => [todo];
-}
+class EditTodoSuccess extends EditTodoState {}
 
 class EditTodoFailure extends EditTodoState {
   final String message;

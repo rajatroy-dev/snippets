@@ -8,14 +8,15 @@ class Todo extends Equatable {
     String? id,
     required this.title,
     String? description,
-    this.completed = false,
+    bool? completed,
   })  : id = id ?? const Uuid().v4(),
-        description = description ?? "";
+        description = description ?? "",
+        completed = completed ?? false;
 
   final String? id;
   final String title;
   final String? description;
-  final bool completed;
+  final bool? completed;
 
   @override
   List<Object?> get props => [id, title, description, completed];

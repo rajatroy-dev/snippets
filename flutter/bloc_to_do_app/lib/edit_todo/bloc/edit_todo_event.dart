@@ -7,15 +7,6 @@ abstract class EditTodoEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class EditTodoInitiated extends EditTodoEvent {
-  final Todo todo;
-
-  const EditTodoInitiated(this.todo);
-
-  @override
-  List<Object> get props => [todo];
-}
-
 class EditTodoSubmitted extends EditTodoEvent {
   final Todo todo;
 

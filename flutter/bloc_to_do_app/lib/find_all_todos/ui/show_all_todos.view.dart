@@ -1,5 +1,5 @@
 import 'package:bloc_to_do_app/find_all_todos/cubit/find_all_todos_cubit.dart';
-import 'package:bloc_to_do_app/find_all_todos/ui/todo_list.dart';
+import 'package:bloc_to_do_app/find_all_todos/ui/todo_list.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -44,11 +44,5 @@ class _ShowAllTodosState extends State<ShowAllTodos> {
         }
       },
     );
-  }
-
-  @override
-  void dispose() {
-    cubit.close();
-    super.dispose();
   }
 }

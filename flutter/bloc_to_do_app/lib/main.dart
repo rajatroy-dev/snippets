@@ -1,5 +1,7 @@
+import 'package:bloc_to_do_app/common/ui/scaffold.view.dart';
+import 'package:bloc_to_do_app/edit_todo/ui/edit_todo.view.dart';
 import 'package:bloc_to_do_app/find_all_todos/cubit/find_all_todos_cubit.dart';
-import 'package:bloc_to_do_app/find_all_todos/ui/show_all_todos.dart';
+import 'package:bloc_to_do_app/find_all_todos/ui/show_all_todos.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,44 +19,35 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => FindAllTodosCubit()),
+        ],
+        child: const MyHomePage(),
+      ),
+      routes: {
+        EditTodoView.routeName: (context) => EditTodoView(),
+      },
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => FindAllTodosCubit()),
-        ],
-        child: const ShowAllTodos(),
-      ),
+    return ScaffoldView(
+      body: const ShowAllTodos(),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: () =>
+            Navigator.of(context).pushNamed(EditTodoView.routeName),
+        tooltip: 'Add todo',
         child: const Icon(Icons.add),
       ),
     );

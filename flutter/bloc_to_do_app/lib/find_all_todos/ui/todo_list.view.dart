@@ -1,4 +1,4 @@
-import 'package:bloc_to_do_app/find_all_todos/ui/todo.dart';
+import 'package:bloc_to_do_app/find_all_todos/ui/todo.view.dart';
 import 'package:bloc_to_do_app/model/todo.dart';
 import 'package:flutter/material.dart';
 
