@@ -30,8 +30,11 @@ class TodoDao {
     return id;
   }
 
-  Future<Todo> find(String id) async {
-    Todo todo = todos.singleWhere((element) => element.id == id);
+  Future<Todo?> findById(String id) async {
+    Todo? todo = todos.firstWhere(
+      (element) => element.id == id,
+      orElse: () => Todo(title: ''),
+    );
 
     return todo;
   }

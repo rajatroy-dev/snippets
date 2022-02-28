@@ -12,7 +12,7 @@ class FindTodoBloc extends Bloc<FindTodoEvent, FindTodoState> {
     on<FindTodo>((event, emit) {
       emit(FindTodoLoading());
       try {
-        todoRepository.find(event.id);
+        todoRepository.findById(event.id);
         emit(FindTodoSuccess(event.id));
       } catch (e) {
         emit(FindTodoFailure(e.toString()));
