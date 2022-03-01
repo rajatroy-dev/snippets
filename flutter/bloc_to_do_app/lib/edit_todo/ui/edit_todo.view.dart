@@ -4,14 +4,20 @@ import 'package:bloc_to_do_app/model/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class EditTodoView extends StatelessWidget {
+class EditTodoView extends StatefulWidget {
   static const routeName = '/add-edit-todo';
 
-  EditTodoView({Key? key}) : super(key: key);
+  const EditTodoView({Key? key}) : super(key: key);
 
+  @override
+  State<EditTodoView> createState() => _EditTodoViewState();
+}
+
+class _EditTodoViewState extends State<EditTodoView> {
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
+  bool switchOn = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +66,20 @@ class EditTodoView extends StatelessWidget {
                     ),
                     maxLines: 5,
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 15.0,
+                      left: 40.0,
+                      right: 15.0,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Completed'),
+                        Switch(value: switchOn, onChanged: handleSwitch),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -74,10 +94,18 @@ class EditTodoView extends StatelessWidget {
     );
   }
 
+  void handleSwitch(bool value) {
+    print(value);
+    setState(() {
+      switchOn = value;
+    });
+  }
+
   void handleSubmit(BuildContext context) {
     var todo = Todo(
       title: titleController.text,
       description: descriptionController.text,
+      completed: switchOn,
     );
 
     BlocProvider.of<EditTodoBloc>(context).add(EditTodoSubmitted(todo));

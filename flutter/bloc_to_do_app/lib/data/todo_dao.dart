@@ -1,45 +1,38 @@
+import 'package:hive_flutter/hive_flutter.dart';
+
 import '../model/todo.dart';
 
 class TodoDao {
-  var todos = <Todo>[
-    Todo(title: '1', description: '1', completed: false),
-    Todo(title: '2', description: '2', completed: false),
-    Todo(title: '3', description: '3', completed: false),
-  ];
+  final Box _box = Hive.box<Todo>('todoBox');
+
   Todo? tempTodo;
 
   Future<String> insert(Todo todo) async {
-    todos.add(todo);
+    await _box.put(todo.id, todo);
 
     return todo.id as String;
   }
 
   Future<String> update(Todo todo) async {
-    for (var item in todos) {
-      if (item.id == todo.id) {
-        item = todo;
-      }
-    }
+    await _box.put(todo.id, todo);
 
     return todo.id as String;
   }
 
   Future<String> delete(String id) async {
-    todos.removeWhere((element) => element.id == id);
+    await _box.delete(id);
 
     return id;
   }
 
   Future<Todo?> findById(String id) async {
-    Todo? todo = todos.firstWhere(
-      (element) => element.id == id,
-      orElse: () => Todo(title: ''),
-    );
+    Todo? todo = await _box.get(id);
 
     return todo;
   }
 
   Future<List<Todo>> findAll() async {
+    var todos = _box.values.toList() as List<Todo>;
     return todos;
   }
 

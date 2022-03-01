@@ -1,9 +1,9 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uuid/uuid.dart';
+part 'todo.g.dart';
 
-@immutable
-class Todo extends Equatable {
+@HiveType(typeId: 0)
+class Todo extends HiveObject {
   Todo({
     String? id,
     required this.title,
@@ -13,11 +13,21 @@ class Todo extends Equatable {
         description = description ?? "",
         completed = completed ?? false;
 
+  @HiveField(0)
   final String? id;
+
+  @HiveField(1)
   final String title;
+
+  @HiveField(2)
   final String? description;
+
+  @HiveField(3)
   final bool? completed;
 
   @override
-  List<Object?> get props => [id, title, description, completed];
+  String toString() {
+    return 'Todo(id: $id, title: $title, description: $description, '
+        'completed: $completed,)';
+  }
 }

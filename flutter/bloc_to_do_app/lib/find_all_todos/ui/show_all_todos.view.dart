@@ -35,7 +35,9 @@ class _ShowAllTodosState extends State<ShowAllTodos> {
               child: CircularProgressIndicator(),
             );
           } else if (state is FindAllTodosSuccess) {
-            return TodoList(todos: state.todos);
+            return state.todos.isNotEmpty
+                ? TodoList(todos: state.todos)
+                : const Center(child: Text('There is nothing to do!'));
           } else if (state is FindAllTodosFailure) {
             return Center(
               child: Text(state.message),
