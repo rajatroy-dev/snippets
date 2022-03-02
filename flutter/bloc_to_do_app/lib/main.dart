@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'delete_todo/bloc/delete_todo_bloc.dart';
+
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(TodoAdapter());
@@ -24,6 +26,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => FindAllTodosCubit()),
         BlocProvider(create: (context) => EditTodoBloc()),
+        BlocProvider(create: (context) => DeleteTodoBloc()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
