@@ -95,7 +95,6 @@ class _EditTodoViewState extends State<EditTodoView> {
   }
 
   void handleSwitch(bool value) {
-    print(value);
     setState(() {
       switchOn = value;
     });
