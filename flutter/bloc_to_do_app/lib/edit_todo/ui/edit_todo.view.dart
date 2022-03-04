@@ -18,9 +18,22 @@ class _EditTodoViewState extends State<EditTodoView> {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   bool switchOn = false;
+  bool firstLoad = true;
 
   @override
   Widget build(BuildContext context) {
+    final arguments = ModalRoute.of(context)!.settings.arguments;
+    final args = arguments != null ? arguments as Todo : Todo(title: '');
+    titleController.text = args.title.isNotEmpty ? args.title : '';
+    descriptionController.text = args.description ?? '';
+
+    setState(() {
+      if (firstLoad) {
+        switchOn = args.completed ?? switchOn;
+        firstLoad = false;
+      }
+    });
+
     return ScaffoldView(
       body: SingleChildScrollView(
         child: BlocListener<EditTodoBloc, EditTodoState>(
@@ -76,7 +89,10 @@ class _EditTodoViewState extends State<EditTodoView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text('Completed'),
-                        Switch(value: switchOn, onChanged: handleSwitch),
+                        Switch(
+                          value: switchOn,
+                          onChanged: handleSwitch,
+                        ),
                       ],
                     ),
                   ),
@@ -87,7 +103,7 @@ class _EditTodoViewState extends State<EditTodoView> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => handleSubmit(context),
+        onPressed: () => handleSubmit(context, args),
         tooltip: 'Submit todo',
         child: const Icon(Icons.check),
       ),
@@ -100,8 +116,9 @@ class _EditTodoViewState extends State<EditTodoView> {
     });
   }
 
-  void handleSubmit(BuildContext context) {
+  void handleSubmit(BuildContext context, Todo args) {
     var todo = Todo(
+      id: args.id ?? '',
       title: titleController.text,
       description: descriptionController.text,
       completed: switchOn,

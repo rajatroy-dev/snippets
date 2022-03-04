@@ -1,4 +1,6 @@
 import 'package:bloc_to_do_app/delete_todo/bloc/delete_todo_bloc.dart';
+import 'package:bloc_to_do_app/edit_todo/ui/edit_todo.view.dart';
+import 'package:bloc_to_do_app/find_all_todos/cubit/find_all_todos_cubit.dart';
 import 'package:bloc_to_do_app/find_all_todos/ui/todo.view.dart';
 import 'package:bloc_to_do_app/model/todo.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +48,28 @@ class _TodoListState extends State<TodoList> {
           return Dismissible(
             key: Key(todo.id as String),
             child: TodoWidget(todo: todo),
+            background: Container(
+              alignment: Alignment.centerLeft,
+              color: Colors.red[900],
+              child: const Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            secondaryBackground: Container(
+              alignment: Alignment.centerRight,
+              color: Colors.red[900],
+              child: const Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.white,
+                ),
+              ),
+            ),
             onDismissed: (direction) {
               BlocProvider.of<DeleteTodoBloc>(context).add(
                 DeleteTodoSubmitted(todo.id as String),
