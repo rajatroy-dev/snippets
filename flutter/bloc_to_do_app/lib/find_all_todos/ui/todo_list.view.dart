@@ -1,6 +1,4 @@
 import 'package:bloc_to_do_app/delete_todo/bloc/delete_todo_bloc.dart';
-import 'package:bloc_to_do_app/edit_todo/ui/edit_todo.view.dart';
-import 'package:bloc_to_do_app/find_all_todos/cubit/find_all_todos_cubit.dart';
 import 'package:bloc_to_do_app/find_all_todos/ui/todo.view.dart';
 import 'package:bloc_to_do_app/model/todo.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +44,7 @@ class _TodoListState extends State<TodoList> {
           final todo = todosCopy[index];
 
           return Dismissible(
-            key: Key(todo.id as String),
+            key: UniqueKey(),
             child: TodoWidget(todo: todo),
             background: Container(
               alignment: Alignment.centerLeft,

@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uuid/uuid.dart';
 part 'todo.g.dart';
 
 @HiveType(typeId: 0)
-class Todo extends HiveObject {
+class Todo extends Equatable {
   Todo({
     String? id,
     required this.title,
@@ -30,4 +31,7 @@ class Todo extends HiveObject {
     return 'Todo(id: $id, title: $title, description: $description, '
         'completed: $completed,)';
   }
+
+  @override
+  List<Object?> get props => [id, title, description, completed];
 }

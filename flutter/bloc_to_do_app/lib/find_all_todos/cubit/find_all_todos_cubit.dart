@@ -6,14 +6,14 @@ import 'package:equatable/equatable.dart';
 part 'find_all_todos_state.dart';
 
 class FindAllTodosCubit extends Cubit<FindAllTodosState> {
-  final TodoRepository todoRepository = TodoRepository();
+  final TodoRepository _todoRepository = TodoRepository();
 
   FindAllTodosCubit() : super(FindAllTodosInitial());
 
   Future<void> getAllTodos() async {
     emit(FindAllTodosLoading());
     try {
-      var todos = await todoRepository.findAll();
+      var todos = await _todoRepository.findAll();
       emit(FindAllTodosSuccess(todos));
     } catch (e) {
       emit(FindAllTodosFailure(e.toString()));

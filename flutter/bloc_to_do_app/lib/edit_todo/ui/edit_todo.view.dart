@@ -79,23 +79,25 @@ class _EditTodoViewState extends State<EditTodoView> {
                     ),
                     maxLines: 5,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 15.0,
-                      left: 40.0,
-                      right: 15.0,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Completed'),
-                        Switch(
-                          value: switchOn,
-                          onChanged: handleSwitch,
-                        ),
-                      ],
-                    ),
-                  ),
+                  args.title.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.only(
+                            top: 15.0,
+                            left: 40.0,
+                            right: 15.0,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Completed'),
+                              Switch(
+                                value: switchOn,
+                                onChanged: handleSwitch,
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ),

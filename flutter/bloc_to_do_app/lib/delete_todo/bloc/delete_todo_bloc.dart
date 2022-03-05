@@ -6,14 +6,14 @@ part 'delete_todo_event.dart';
 part 'delete_todo_state.dart';
 
 class DeleteTodoBloc extends Bloc<DeleteTodoEvent, DeleteTodoState> {
-  final TodoRepository todoRepository = TodoRepository();
+  final TodoRepository _todoRepository = TodoRepository();
 
   DeleteTodoBloc() : super(DeleteTodoInitial()) {
     on<DeleteTodoSubmitted>((event, emit) async {
       emit(DeleteTodoLoading());
 
       try {
-        await todoRepository.delete(event.id);
+        await _todoRepository.delete(event.id);
         emit(DeleteTodoSuccess(event.id));
       } catch (e) {
         emit(DeleteTodoFailure(e.toString()));

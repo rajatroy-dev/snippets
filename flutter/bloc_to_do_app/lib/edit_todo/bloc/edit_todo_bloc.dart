@@ -7,18 +7,18 @@ part 'edit_todo_event.dart';
 part 'edit_todo_state.dart';
 
 class EditTodoBloc extends Bloc<EditTodoEvent, EditTodoState> {
-  final TodoRepository todoRepository = TodoRepository();
+  final TodoRepository _todoRepository = TodoRepository();
 
   EditTodoBloc() : super(EditTodoInitial()) {
     on<EditTodoSubmitted>((event, emit) async {
       emit(EditTodoLoading());
 
       try {
-        var todo = await todoRepository.findById(event.todo.id ?? '');
+        var todo = await _todoRepository.findById(event.todo.id ?? '');
         if (todo?.title == '') {
-          await todoRepository.insert(event.todo);
+          await _todoRepository.insert(event.todo);
         } else {
-          await todoRepository.update(event.todo);
+          await _todoRepository.update(event.todo);
         }
         emit(EditTodoSuccess());
       } catch (e) {
