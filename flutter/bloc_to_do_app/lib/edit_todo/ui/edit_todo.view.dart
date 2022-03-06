@@ -1,5 +1,6 @@
 import 'package:bloc_to_do_app/common/ui/scaffold.view.dart';
 import 'package:bloc_to_do_app/edit_todo/bloc/edit_todo_bloc.dart';
+import 'package:bloc_to_do_app/edit_todo/ui/edit_todo_form.view.dart';
 import 'package:bloc_to_do_app/model/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +15,6 @@ class EditTodoView extends StatefulWidget {
 }
 
 class _EditTodoViewState extends State<EditTodoView> {
-  final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   bool switchOn = false;
@@ -24,12 +24,12 @@ class _EditTodoViewState extends State<EditTodoView> {
   Widget build(BuildContext context) {
     final arguments = ModalRoute.of(context)!.settings.arguments;
     final args = arguments != null ? arguments as Todo : Todo(title: '');
-    titleController.text = args.title.isNotEmpty ? args.title : '';
+    titleController.text = args.title;
     descriptionController.text = args.description ?? '';
 
     setState(() {
       if (firstLoad) {
-        switchOn = args.completed ?? switchOn;
+        switchOn = args.completed!;
         firstLoad = false;
       }
     });
@@ -54,53 +54,12 @@ class _EditTodoViewState extends State<EditTodoView> {
               );
             }
           },
-          child: Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TextFormField(
-                    controller: titleController,
-                    decoration: const InputDecoration(
-                      icon: Icon(Icons.check),
-                      hintText: 'What would you like to do?',
-                      labelText: 'Title',
-                    ),
-                  ),
-                  TextFormField(
-                    controller: descriptionController,
-                    decoration: const InputDecoration(
-                      icon: Icon(Icons.notes_rounded),
-                      hintText: 'Describe to do . . .',
-                      labelText: 'Description',
-                      alignLabelWithHint: true,
-                    ),
-                    maxLines: 5,
-                  ),
-                  args.title.isNotEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.only(
-                            top: 15.0,
-                            left: 40.0,
-                            right: 15.0,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Completed'),
-                              Switch(
-                                value: switchOn,
-                                onChanged: handleSwitch,
-                              ),
-                            ],
-                          ),
-                        )
-                      : const SizedBox(),
-                ],
-              ),
-            ),
+          child: EditTodoFormView(
+            titleController: titleController,
+            descriptionController: descriptionController,
+            todo: args,
+            switchOn: switchOn,
+            handleSwitch: handleSwitch,
           ),
         ),
       ),
