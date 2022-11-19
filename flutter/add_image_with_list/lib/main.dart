@@ -1,5 +1,9 @@
+import 'package:add_image_with_list/image_list/image_list.dart';
+import 'package:add_image_with_list/image_source_choice/image_source_choice_popup.dart';
 import 'package:add_image_with_list/no_image.dart';
+import 'package:add_image_with_list/source_choice.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,11 +54,36 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool hasImage = false;
+  bool showImageSourceChoice = false;
+  XFile? image;
+  List<XFile> imageList = [];
 
   handleAddImage() {
-    print(hasImage);
     setState(() {
+      showImageSourceChoice = !showImageSourceChoice;
+    });
+  }
+
+  handleImageSourceSelection(SourceChoice choice) async {
+    ImagePicker picker = ImagePicker();
+
+    switch (choice) {
+      case SourceChoice.gallery:
+        image = await picker.pickImage(source: ImageSource.gallery);
+        break;
+      case SourceChoice.camera:
+        image = await picker.pickImage(source: ImageSource.camera);
+        break;
+      default:
+        break;
+    }
+
+    var temp = imageList;
+    temp.add(image!);
+    setState(() {
+      imageList = temp;
       hasImage = true;
+      showImageSourceChoice = false;
     });
   }
 
@@ -68,69 +97,18 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Stack(
         children: [
-          SizedBox(
-            height: 200,
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: handleAddImage,
-                  child: hasImage ? const NoImage() : const NoImage(),
+          !hasImage && imageList.isEmpty
+              ? NoImage(
+                  handler: handleAddImage,
+                )
+              : ImageList(
+                  list: imageList,
+                  handler: handleAddImage,
                 ),
-              ],
+          if (showImageSourceChoice)
+            ImageSourceChoicePopup(
+              handler: handleImageSourceSelection,
             ),
-          ),
-          Align(
-            alignment: AlignmentDirectional.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 200,
-                width: double.infinity,
-                child: Card(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 112,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 50.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                iconSize: 80,
-                                onPressed: () {},
-                                icon: const Icon(Icons.insert_photo_rounded),
-                              ),
-                              const Text("Gallery"),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 112,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 50.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                iconSize: 80,
-                                onPressed: () {},
-                                icon: const Icon(Icons.camera_alt_rounded),
-                              ),
-                              const Text("Camera"),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          )
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

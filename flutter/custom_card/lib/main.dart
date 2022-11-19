@@ -58,71 +58,117 @@ class _MyHomePageState extends State<MyHomePage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
         ),
-        child: SizedBox(
-          width: 200,
-          height: 310,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(5.0),
-                  topRight: Radius.circular(5.0),
-                ),
-                child: Image.network(
-                  'https://picsum.photos/200',
-                  fit: BoxFit.fill,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(5.0),
-                child: Text(
-                  'A random picture',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            SizedBox(
+              width: 200,
+              height: 320,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(5.0),
+                      topRight: Radius.circular(5.0),
+                    ),
+                    child: Image.network(
+                      'https://picsum.photos/200',
+                      fit: BoxFit.fill,
+                    ),
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Row(
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.only(right: 5.0),
-                      child: Icon(Icons.location_on_rounded, size: 16.0),
-                    ),
-                    Text('A random location'),
-                  ],
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(
-                  5.0,
-                ),
-                child: Text("Qty: 5"),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Row(
-                  children: const [
-                    Text(
-                      "#abc",
+                  const Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Text(
+                      'A random picture',
                       style: TextStyle(
-                        backgroundColor: Colors.grey,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
-                      "#def",
-                      style: TextStyle(
-                        backgroundColor: Colors.grey,
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Row(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.only(right: 5.0),
+                          child: Icon(Icons.location_on_rounded, size: 16.0),
+                        ),
+                        Text('A random location'),
+                      ],
                     ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(
+                      5.0,
+                    ),
+                    child: Text("Qty: 5"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Wrap(
+                      clipBehavior: Clip.hardEdge,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(3.0),
+                          margin: const EdgeInsets.only(right: 4.0),
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(2.0),
+                            ),
+                            color: Colors.grey[300],
+                          ),
+                          child: const Text("#abc"),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(3.0),
+                          margin: const EdgeInsets.only(right: 4.0),
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(2.0),
+                            ),
+                            color: Colors.grey[300],
+                          ),
+                          child: const Text("#abc"),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(3.0),
+                          margin: const EdgeInsets.only(right: 4.0),
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(2.0),
+                            ),
+                            color: Colors.grey[300],
+                          ),
+                          child: const Text("#abc"),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(3.0),
+                          margin: const EdgeInsets.only(right: 4.0),
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(2.0),
+                            ),
+                            color: Colors.grey[300],
+                          ),
+                          child: const Text("#abc"),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            FloatingActionButton.small(
+              onPressed: () {},
+              backgroundColor: Colors.white,
+              child: const Icon(
+                Icons.favorite_rounded,
+                color: Colors.green,
+              ),
+            ),
+          ],
         ), // This trailing comma makes auto-formatting nicer for build methods.
       ),
     );
