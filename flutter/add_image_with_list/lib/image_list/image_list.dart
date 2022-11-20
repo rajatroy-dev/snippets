@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:add_image_with_list/selected_thumbnail.dart';
+import 'package:add_image_with_list/image_list/selected_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -35,13 +35,12 @@ class _ImageListState extends State<ImageList> {
         children: [
           SizedBox(
             height: 150,
-            width: double.infinity,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: widget.list.length,
                 itemBuilder: (context, index) {
-                  return SelectedThumbnail(
-                    handler: (index) => selectThumbnailHandler(index),
+                  return SelectedImage(
+                    handler: () => selectThumbnailHandler(index),
                     child: Image.file(File(widget.list[index].path)),
                     isThumbnail: thumbnailIndex == index,
                   );

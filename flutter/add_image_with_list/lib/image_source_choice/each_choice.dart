@@ -1,4 +1,4 @@
-import 'package:add_image_with_list/source_choice.dart';
+import 'package:add_image_with_list/image_source_choice/source_choice.dart';
 import 'package:flutter/material.dart';
 
 class EachChoice extends StatelessWidget {
@@ -16,11 +16,11 @@ class EachChoice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 112,
+      height: 122,
       child: Padding(
         padding: choice == SourceChoice.gallery
-            ? const EdgeInsets.only(left: 50.0)
-            : const EdgeInsets.only(right: 50.0),
+            ? const EdgeInsets.only(left: 50.0, top: 10.0)
+            : const EdgeInsets.only(right: 50.0, top: 10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

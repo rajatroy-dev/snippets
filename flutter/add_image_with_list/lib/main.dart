@@ -1,7 +1,7 @@
 import 'package:add_image_with_list/image_list/image_list.dart';
 import 'package:add_image_with_list/image_source_choice/image_source_choice_popup.dart';
 import 'package:add_image_with_list/no_image.dart';
-import 'package:add_image_with_list/source_choice.dart';
+import 'package:add_image_with_list/image_source_choice/source_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -74,6 +74,11 @@ class _MyHomePageState extends State<MyHomePage> {
       case SourceChoice.camera:
         image = await picker.pickImage(source: ImageSource.camera);
         break;
+      case SourceChoice.none:
+        setState(() {
+          showImageSourceChoice = false;
+        });
+        return;
       default:
         break;
     }

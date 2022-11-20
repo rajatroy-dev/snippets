@@ -1,5 +1,5 @@
 import 'package:add_image_with_list/image_source_choice/each_choice.dart';
-import 'package:add_image_with_list/source_choice.dart';
+import 'package:add_image_with_list/image_source_choice/source_choice.dart';
 import 'package:flutter/material.dart';
 
 class ImageSourceChoicePopup extends StatelessWidget {
@@ -14,25 +14,40 @@ class ImageSourceChoicePopup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: AlignmentDirectional.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
-          height: 200,
-          width: double.infinity,
+      child: SizedBox(
+        height: 200,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
           child: Card(
-            child: Row(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                EachChoice(
-                  btnTxt: "Gallery",
-                  choice: SourceChoice.gallery,
-                  handler: handler,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    EachChoice(
+                      btnTxt: "Gallery",
+                      choice: SourceChoice.gallery,
+                      handler: handler,
+                    ),
+                    EachChoice(
+                      btnTxt: "Camera",
+                      choice: SourceChoice.camera,
+                      handler: handler,
+                    ),
+                  ],
                 ),
-                EachChoice(
-                  btnTxt: "Camera",
-                  choice: SourceChoice.camera,
-                  handler: handler,
+                Expanded(
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      onPressed: () => handler(SourceChoice.none),
+                      child: const Text("Cancel"),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.red,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
