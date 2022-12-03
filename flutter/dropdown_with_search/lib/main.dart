@@ -1,3 +1,4 @@
+import 'package:dropdown_with_search/dropdown_list.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -49,6 +50,25 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final _controller = TextEditingController();
+  final list = [
+    'Alaskan Malamute',
+    'Bohemian Shepherd',
+    'Cane Corso',
+    'Dobermann',
+    'English Mastiff',
+    'Finnish Hound',
+    'Great Dane'
+  ];
+
+  List<String> filtered = [];
+  var showDropdown = false;
+
+  @override
+  void initState() {
+    filtered = list;
+    super.initState();
+  }
+
   InputDecoration decoration = InputDecoration(
     border: const OutlineInputBorder(),
     hintText: 'Search . . .',
@@ -82,13 +102,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   handleInputChange(String value) {
     if (value.isNotEmpty) {
+      var temp = [...list];
+      temp = temp.where((i) => i.toLowerCase().contains(value)).toList();
+
       setState(() {
         decoration = _inputCrossDecoration();
+        showDropdown = true;
+        filtered = temp;
       });
+      return;
     }
 
     setState(() {
       decoration = _inputArrowDecoration();
+      showDropdown = false;
+      filtered = list;
     });
   }
 
@@ -97,8 +125,15 @@ class _MyHomePageState extends State<MyHomePage> {
       _controller.clear();
       setState(() {
         decoration = _inputArrowDecoration();
+        showDropdown = false;
+        filtered = list;
       });
+      return;
     }
+
+    setState(() {
+      showDropdown = !showDropdown;
+    });
   }
 
   @override
@@ -107,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -120,6 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ? _inputCrossDecoration()
                     : _inputArrowDecoration(),
               ),
+              if (showDropdown) DropdownList(list: filtered),
             ],
           ),
         ),
