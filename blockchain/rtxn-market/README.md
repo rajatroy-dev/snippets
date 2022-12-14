@@ -38,3 +38,13 @@ From there, follow the instructions on the hosted React app. It will walk you th
 - __Where can I find more resources?__
 
   This Box is a sweet combo of [Truffle](https://trufflesuite.com) and [Create React App](https://create-react-app.dev). Either one would be a great place to start!
+
+
+---
+
+## Server Setup
+
+- Follow the instructions at [DigitalOcean](https://www.digitalocean.com/community/tutorials/setting-up-a-node-project-with-typescript) to setup a basic `Node.js`, `Express.js` project with `Typescript`.
+  - Troubleshoot:
+    - Follow the steps here at [stackoverflow](https://stackoverflow.com/questions/49789177/module-is-not-defined-and-process-is-not-defined-in-eslint-in-visual-studio-code) to remove **'module' is not defined.** error in *.eslintrc.js*.
+- Add `web3` package.
