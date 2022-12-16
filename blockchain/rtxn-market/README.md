@@ -48,3 +48,8 @@ From there, follow the instructions on the hosted React app. It will walk you th
   - Troubleshoot:
     - Follow the steps here at [stackoverflow](https://stackoverflow.com/questions/49789177/module-is-not-defined-and-process-is-not-defined-in-eslint-in-visual-studio-code) to remove **'module' is not defined.** error in *.eslintrc.js*.
 - Add `web3` package.
+- Get the Contracts: `npm i @openzeppelin/contracts`.
+- Create your own contracts by inherting from openzepplin.
+- Change `contracts_build_directory` in `truffle/truffle-config.js`.
+- Change the output directory in `tsconfig.json` and `package.json`.
+- Incase if there is an error for *json* import, follow [this stackoverflow post](https://stackoverflow.com/questions/49996456/importing-json-file-in-typescript), then restart VSCode.
