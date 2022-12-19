@@ -53,3 +53,4 @@ From there, follow the instructions on the hosted React app. It will walk you th
 - Change `contracts_build_directory` in `truffle/truffle-config.js`.
 - Change the output directory in `tsconfig.json` and `package.json`.
 - Incase if there is an error for *json* import, follow [this stackoverflow post](https://stackoverflow.com/questions/49996456/importing-json-file-in-typescript), then restart VSCode.
+- To configure typegoose properly, follow [this GitHub issue](https://github.com/typegoose/typegoose/issues/326#issuecomment-659289452).

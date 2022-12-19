@@ -1,5 +1,6 @@
 import { Request } from "express";
+import { IUser } from "./user";
 
 export interface IRequestWithAuthInfo extends Request {
-    user?: string // or any other type
+    user?: IUser // or any other type
 }

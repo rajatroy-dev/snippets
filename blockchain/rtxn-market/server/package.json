@@ -2,11 +2,14 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "build/app.js",
+  "main": "app.js",
   "scripts": {
-    "start": "tsc && node build/app.js",
-    "lint": "eslint . --ext .ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rimraf ./build && tsc",
+    "start": "nodemon",
+    "serve:prod": "npm run build && node build/app.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "",
@@ -14,10 +17,15 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.15",
+    "@types/jest": "^29.2.4",
     "@types/jsonwebtoken": "^8.5.9",
     "@typescript-eslint/eslint-plugin": "^5.46.1",
     "@typescript-eslint/parser": "^5.46.1",
     "eslint": "^8.29.0",
+    "jest": "^29.3.1",
+    "nodemon": "^2.0.20",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
   },
   "dependencies": {

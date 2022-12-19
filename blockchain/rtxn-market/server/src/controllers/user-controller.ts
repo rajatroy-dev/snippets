@@ -1,4 +1,4 @@
-import { compare, genSalt, hash } from "bcrypt";
+import { compare, hash } from "bcrypt";
 import { config } from "dotenv";
 import {
     NextFunction,
@@ -10,18 +10,15 @@ import { sign, verify } from "jsonwebtoken";
 import UserModel from "../models/user";
 import HttpError from "../models/http-error";
 import { IRequestWithAuthInfo } from "../types/request-with-auth-info";
+import { IVerifyTokenUser } from "../types/verify-token-user";
 import { ROLE } from "../utils/enums";
 import promiseHandler from "../utils/promise-handler";
+import { IUser } from "../types/user";
 
 config();
 
 const signUp = async (req: Request, res: Response, next: NextFunction) => {
-    const [saltErr, salt] = await promiseHandler(genSalt(process.env.SALT_ROUNDS as unknown as number));
-    if (saltErr) {
-        return next(new HttpError('Something Went Wrong!', 500));
-    }
-
-    const [hashErr, hashed] = await promiseHandler(hash(req.body.password, salt));
+    const [hashErr, hashed] = await promiseHandler(hash(req.body.password, parseInt(process.env.SALT_ROUNDS)));
     if (hashErr) {
         return next(new HttpError('Something Went Wrong!', 500));
     }
@@ -64,47 +61,47 @@ const signUp = async (req: Request, res: Response, next: NextFunction) => {
     );
 }
 
-const login = async (req: Request, res: Response, next: NextFunction) => {
-    const [userErr, user] = promiseHandler(UserModel.findOne({ username: req.body.username }));
-    if (userErr) {
-        return next(new HttpError('Something Went Wrong!', 500));
-    }
-
-    const [hashErr, hashed] = await promiseHandler(hash(req.body.password, process.env.SALT_ROUNDS as unknown as number));
-    if (hashErr) {
-        return next(new HttpError('Something Went Wrong!', 500));
-    }
-
-    const [compareErr, isValid] = await promiseHandler(compare(user.password, hashed));
-    if (compareErr) {
-        return next(new HttpError('Something Went Wrong!', 500));
-    }
-
-    if (!isValid) {
-        return next(new HttpError('Forbidden!', 403));
-    }
-
-    const responsePayload = {
-        username: req.body.username,
-        name: user.name,
-        token: '',
-    };
-
-    sign(
-        { username: req.body.username, name: user.name },
-        process.env.JWT_SECRET,
-        {
-            expiresIn: "2h",
-        },
-        (err, encoded) => {
-            if (err) {
-                return next(new HttpError('Something Went Wrong!', 500));
-            }
-
-            responsePayload.token = encoded;
-            return res.status(200).json(responsePayload);
+const login = (req: Request, res: Response, next: NextFunction) => {
+    UserModel.findOne({ username: req.body.username }, async (err: never, user: IUser) => {
+        if (err) {
+            return next(new HttpError('Something Went Wrong!', 500));
         }
-    );
+
+        if (!user) {
+            return next(new HttpError('User not found!', 404));
+        }
+
+        const [compareErr, isValid] = await promiseHandler(compare(req.body.password, user.password));
+        if (compareErr) {
+            return next(new HttpError('Something Went Wrong!', 500));
+        }
+
+        if (!isValid) {
+            return next(new HttpError('Incorrect password!', 403));
+        }
+
+        const responsePayload = {
+            username: req.body.username,
+            name: user.name,
+            token: '',
+        };
+
+        sign(
+            { username: req.body.username, name: user.name },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "2h",
+            },
+            (err, encoded) => {
+                if (err) {
+                    return next(new HttpError('Something Went Wrong!', 500));
+                }
+
+                responsePayload.token = encoded;
+                return res.status(200).json(responsePayload);
+            }
+        );
+    });
 }
 
 const isAuthenticated = (req: IRequestWithAuthInfo, _: Response, next: NextFunction) => {
@@ -114,13 +111,30 @@ const isAuthenticated = (req: IRequestWithAuthInfo, _: Response, next: NextFunct
     }
 
     const token = bearerToken.slice('Bearer '.length);
-    verify(token, process.env.JWT_SECRET, (err: never, user: never) => {
+    verify(token, process.env.JWT_SECRET, (err: never, tokenUser: IVerifyTokenUser) => {
         if (err) {
             return next(new HttpError('Unauthorized!', 401));
         }
 
-        req.user = user;
-        return next();
+        tokenUser.username && UserModel.findOne({ username: tokenUser.username }, async (err: never, user: IUser) => {
+            if (err) {
+                return next(new HttpError('Something Went Wrong!', 500));
+            }
+
+            if (!user) {
+                return next(new HttpError('Unauthorized!', 401));
+            }
+
+            if (tokenUser.name !== user.name
+                || tokenUser.username !== user.username) {
+                return next(new HttpError('Forbidden!', 403));
+            }
+
+            delete user.password;
+            req.user = user;
+
+            return next();
+        });
     });
 }
 

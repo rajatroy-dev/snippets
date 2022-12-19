@@ -9,6 +9,7 @@ import mongoose from 'mongoose';
 import rTxnToken from './contracts/RTxnToken.json';
 import { isAuthenticated } from './controllers/user-controller';
 import HttpError from './models/http-error';
+import userRoutes from "./routes/user-routes";
 
 config();
 const app = express();
@@ -16,11 +17,13 @@ const port = 3000;
 
 app.use(express.json());
 
+app.use('/auth', userRoutes);
+
+app.use(isAuthenticated);
+
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
-
-app.use(isAuthenticated);
 
 // 404. No routes found
 app.use((_: Request, __: Response, next: NextFunction) => {
