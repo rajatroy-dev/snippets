@@ -10,6 +10,10 @@ import rTxnToken from './contracts/RTxnToken.json';
 import { isAuthenticated } from './controllers/user-controller';
 import HttpError from './models/http-error';
 import userRoutes from "./routes/user-routes";
+import {
+    ERROR_INTERNAL_SERVER,
+    ERROR_NOT_FOUND
+} from "./shared/constants";
 
 config();
 const app = express();
@@ -27,7 +31,7 @@ app.get('/', (req, res) => {
 
 // 404. No routes found
 app.use((_: Request, __: Response, next: NextFunction) => {
-    next(new HttpError('API not found!', 404));
+    return next(new HttpError(ERROR_NOT_FOUND, 404));
 });
 
 // Error
@@ -36,8 +40,7 @@ app.use((error: HttpError, _: Request, res: Response, next: NextFunction): void 
         return next(error);
     }
 
-    res.status(error.code || 500);
-    res.json({ error: error.message || 'An unknown error has occured!' });
+    res.status(error.code || 500).json({ error: error.message || ERROR_INTERNAL_SERVER });
 });
 
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING).then(() => {
