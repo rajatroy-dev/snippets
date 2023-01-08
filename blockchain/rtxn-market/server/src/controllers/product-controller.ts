@@ -31,3 +31,33 @@ export const addProduct = async (req: Request, res: Response, next: NextFunction
 
     return res.status(201).json(addedProduct);
 }
+
+export const updateProduct = async (req: Request, res: Response, next: NextFunction) => {
+    const [updateErr] = await promiseHandler(ProductModel.findOneAndUpdate({ productId: req.params.id }, req.body.product));
+
+    if (updateErr) {
+        return next(new HttpError(ERROR_INTERNAL_SERVER, 500));
+    }
+
+    return res.status(200).json(req.body.product);
+}
+
+export const deleteProduct = async (req: Request, res: Response, next: NextFunction) => {
+    const [deleteErr] = await promiseHandler(ProductModel.findOneAndDelete({ productId: req.params.id }));
+
+    if (deleteErr) {
+        return next(new HttpError(ERROR_INTERNAL_SERVER, 500));
+    }
+
+    return res.status(200).json(req.params.id);
+}
+
+export const getProduct = async (req: Request, res: Response, next: NextFunction) => {
+    const [getErr, doc] = await promiseHandler(ProductModel.findOne({ productId: req.params.id }));
+
+    if (getErr) {
+        return next(new HttpError(ERROR_INTERNAL_SERVER, 500));
+    }
+
+    return res.status(200).json(doc);
+}
